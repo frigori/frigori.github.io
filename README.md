@@ -18,7 +18,7 @@ npm run build
 
 ## GitHub Pages deploy
 
-The workflow in `.github/workflows/deploy.yml` builds `dist/` and deploys it to GitHub Pages on every push to `master`.
+The workflow in `.github/workflows/deploy.yml` runs lint/build on pull requests, then builds `dist/` and deploys it to GitHub Pages on every push to `master`.
 
 For the username site, push this project to `frigori.github.io`.
 
