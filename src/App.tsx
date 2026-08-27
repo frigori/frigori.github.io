@@ -25,7 +25,7 @@ const projects = [
     description:
       'Using GenAI to explore, summarize and reason over public procurement documents and decision workflows.',
     tags: ['genai', 'rag', 'nlp', 'product'],
-    href: null,
+    href: 'https://github.com/ppguidotti/smart-tender-assistant',
   },
   {
     path: 'home-lab/',
