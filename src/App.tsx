@@ -6,6 +6,7 @@ const navTabs = [
   { id: 'projects', label: 'projects/' },
   { id: 'timeline', label: 'timeline.log' },
   { id: 'skills', label: 'skills.json' },
+  { id: 'languages', label: 'locale -a' },
   { id: 'contact', label: 'contact' },
 ]
 
@@ -16,6 +17,7 @@ const projects = [
     description:
       'Machine-learning pipeline for ASD classification from eye-tracking data: careful feature handling, model comparison, reproducible analysis. Subject of my BSc thesis.',
     tags: ['python', 'scikit-learn', 'eye-tracking', 'research'],
+    href: 'https://github.com/frigori/ASD-Classification-With-ET-Data',
   },
   {
     path: 'genai-procurement/',
@@ -23,6 +25,7 @@ const projects = [
     description:
       'Using GenAI to explore, summarize and reason over public procurement documents and decision workflows.',
     tags: ['genai', 'rag', 'nlp', 'product'],
+    href: null,
   },
   {
     path: 'home-lab/',
@@ -30,6 +33,7 @@ const projects = [
     description:
       'Personal lab for Linux services, rootless containers, reverse proxies and local-first AI tooling.',
     tags: ['linux', 'podman', 'networking', 'automation'],
+    href: null,
   },
   {
     path: 'portfolio-cv/',
@@ -37,6 +41,7 @@ const projects = [
     description:
       'Public-safe portfolio and CV publishing workflow, reusable content blocks and variant-aware exports.',
     tags: ['react', 'tailwind', 'gh-pages', 'ci'],
+    href: 'https://github.com/frigori/frigori.github.io',
   },
 ]
 
@@ -73,6 +78,12 @@ const skillGroups = [
   { key: 'SOFTWARE', label: 'Software', skills: ['TypeScript', 'React', 'Git', 'Linux', 'automation'] },
   { key: 'SYSTEMS', label: 'Systems', skills: ['Docker', 'Podman', 'self-hosting', 'reverse proxy', 'networking'] },
   { key: 'WORKFLOW', label: 'Workflow', skills: ['Markdown', 'GitHub Actions', 'technical writing', 'reproducibility'] },
+]
+
+const languages = [
+  { code: 'IT', name: 'Italian', level: 'native', detail: null },
+  { code: 'EN', name: 'English', level: 'C1', detail: 'Duolingo 130/160 · CLA C1, UniBo · Cambridge FCE B2 (178/190)' },
+  { code: 'FR', name: 'French', level: 'B1/B2', detail: 'CLA B1, UniBo · B2/C1 coursework at Université de Tours' },
 ]
 
 const contactLinks = [
@@ -176,27 +187,28 @@ function App() {
           <Section id="projects" command="ls -la projects/">
             <div className="grid gap-4 md:grid-cols-2">
               {projects.map((project, index) => (
-                <motion.article
+                <motion.div
                   key={project.path}
                   initial={{ opacity: 0, y: 14 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-60px' }}
                   transition={{ delay: index * 0.06 }}
-                  className="border border-[var(--line)] bg-[var(--panel)] p-5"
                 >
-                  <p className="text-sm">
-                    <span className="text-[var(--amber)]">{project.path}</span>{' '}
-                    <span className="text-[var(--dim)]">{project.flag}</span>
-                  </p>
-                  <p className="mt-3 font-sans text-[0.92rem] leading-6 text-[var(--sub)]">{project.description}</p>
-                  <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-xs">
-                    {project.tags.map((tag) => (
-                      <span key={tag} className="text-[var(--sub)]">
-                        <span className="text-[var(--dim)]">#</span>{tag}
-                      </span>
-                    ))}
-                  </div>
-                </motion.article>
+                  {project.href ? (
+                    <a
+                      href={project.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block border border-[var(--line)] bg-[var(--panel)] p-5 transition hover:border-[var(--amber)]"
+                    >
+                      <ProjectCardBody project={project} />
+                    </a>
+                  ) : (
+                    <div className="block border border-[var(--line)] bg-[var(--panel)] p-5">
+                      <ProjectCardBody project={project} />
+                    </div>
+                  )}
+                </motion.div>
               ))}
             </div>
           </Section>
@@ -234,6 +246,25 @@ function App() {
                       </span>
                     ))}
                   </div>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          <Section id="languages" command="locale -a">
+            <div className="border border-[var(--line)]">
+              {languages.map((lang, i) => (
+                <div
+                  key={lang.code}
+                  className={`flex flex-wrap items-baseline gap-x-3 gap-y-1 px-5 py-4 text-sm ${i > 0 ? 'border-t border-[var(--line)]' : ''}`}
+                >
+                  <span className="w-8 shrink-0 text-[var(--amber)]">{lang.code}</span>
+                  <span className="text-[var(--ink)]">{lang.name}</span>
+                  <span className="text-[var(--dim)]">·</span>
+                  <span className="text-[var(--sub)]">{lang.level}</span>
+                  {lang.detail && (
+                    <span className="w-full font-sans text-xs text-[var(--dim)] sm:ml-8 sm:w-auto">{lang.detail}</span>
+                  )}
                 </div>
               ))}
             </div>
@@ -286,6 +317,26 @@ function StatusRow({ label, value }: { label: string; value: string }) {
     <>
       <dt className="text-[var(--dim)]">{label}</dt>
       <dd className="text-[var(--ink)]">{value}</dd>
+    </>
+  )
+}
+
+function ProjectCardBody({ project }: { project: (typeof projects)[number] }) {
+  return (
+    <>
+      <p className="text-sm">
+        <span className="text-[var(--amber)]">{project.path}</span>{' '}
+        <span className="text-[var(--dim)]">{project.flag}</span>
+        {project.href && <span className="ml-1 text-[var(--dim)]">↗</span>}
+      </p>
+      <p className="mt-3 font-sans text-[0.92rem] leading-6 text-[var(--sub)]">{project.description}</p>
+      <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+        {project.tags.map((tag) => (
+          <span key={tag} className="text-[var(--sub)]">
+            <span className="text-[var(--dim)]">#</span>{tag}
+          </span>
+        ))}
+      </div>
     </>
   )
 }
