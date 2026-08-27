@@ -1,1 +1,17 @@
-/* App-level styles are expressed with Tailwind utility classes in App.tsx. */
+/* Most styles are expressed with Tailwind utility classes in App.tsx. */
+
+.cursor-blink {
+  animation: cursor-blink 1.1s steps(1) infinite;
+}
+
+@keyframes cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-blink {
+    animation: none;
+  }
+}

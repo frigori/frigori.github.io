@@ -34,9 +34,4 @@ export default defineConfig({
 
 ## Content to personalize
 
-Update public contact/content in `src/App.tsx` when ready:
-
-- replace “LinkedIn soon” with the real profile URL
-- replace “Email on request” with a public-safe contact method if desired
-- add `public/cv.pdf` only once a public-safe CV is ready, then change “CV coming soon” to `/cv.pdf`
-- add project links when repositories/demos are available
+Content lives in `src/App.tsx` (`projects`, `timeline`, `skillGroups`, `contactLinks`). Keep it in sync with the CV in the sibling `CV` repo, and add project links when repositories/demos are available.

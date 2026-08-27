@@ -1,281 +1,292 @@
 import { motion } from 'framer-motion'
-import {
-  ArrowUpRight,
-  BrainCircuit,
-  Code2,
-  Cpu,
-  GraduationCap,
-  Mail,
-  MapPin,
-  Moon,
-  Network,
-  Sparkles,
-  Terminal,
-} from 'lucide-react'
 import './App.css'
 
-const navItems = ['about', 'projects', 'timeline', 'skills', 'contact']
+const navTabs = [
+  { id: 'about', label: 'about.md' },
+  { id: 'projects', label: 'projects/' },
+  { id: 'timeline', label: 'timeline.log' },
+  { id: 'skills', label: 'skills.json' },
+  { id: 'contact', label: 'contact' },
+]
 
 const projects = [
   {
-    title: 'ASD Eye-Tracking Classification',
-    eyebrow: 'Applied ML · Research',
+    path: 'asd-eye-tracking/',
+    flag: '--research',
     description:
-      'Machine-learning pipeline for ASD classification from eye-tracking data, focused on careful feature handling, model comparison and reproducible analysis.',
-    tags: ['Python', 'scikit-learn', 'Eye tracking', 'Research'],
-    icon: BrainCircuit,
+      'Machine-learning pipeline for ASD classification from eye-tracking data: careful feature handling, model comparison, reproducible analysis. Subject of my BSc thesis.',
+    tags: ['python', 'scikit-learn', 'eye-tracking', 'research'],
   },
   {
-    title: 'GenAI Procurement Analyzer',
-    eyebrow: 'Industry innovation sprint',
+    path: 'genai-procurement/',
+    flag: '--prototype',
     description:
-      'Prototype direction for using GenAI to explore, summarize and reason over public procurement documents and decision workflows.',
-    tags: ['GenAI', 'RAG', 'NLP', 'Product thinking'],
-    icon: Sparkles,
+      'Using GenAI to explore, summarize and reason over public procurement documents and decision workflows.',
+    tags: ['genai', 'rag', 'nlp', 'product'],
   },
   {
-    title: 'Self-hosted AI / Home Server Lab',
-    eyebrow: 'Systems · Infrastructure',
+    path: 'home-lab/',
+    flag: '--infra',
     description:
-      'Personal lab for Linux services, rootless containers, reverse proxies and local-first AI tooling, designed around practical reliability.',
-    tags: ['Linux', 'Podman', 'Networking', 'Automation'],
-    icon: Network,
+      'Personal lab for Linux services, rootless containers, reverse proxies and local-first AI tooling.',
+    tags: ['linux', 'podman', 'networking', 'automation'],
   },
   {
-    title: 'Portfolio & CV Automation',
-    eyebrow: 'Web · Documentation',
+    path: 'portfolio-cv/',
+    flag: '--web',
     description:
-      'Public-safe portfolio and CV publishing workflow with GitHub Pages, reusable content blocks and variant-aware exports.',
-    tags: ['React', 'Tailwind', 'GitHub Pages', 'CI'],
-    icon: Code2,
+      'Public-safe portfolio and CV publishing workflow, reusable content blocks and variant-aware exports.',
+    tags: ['react', 'tailwind', 'gh-pages', 'ci'],
   },
 ]
 
 const timeline = [
   {
-    period: 'Now',
-    title: 'BSc Computer Engineering',
+    tag: '[NOW]',
+    title: 'MSc in Artificial Intelligence — Admitted',
     place: 'University of Bologna',
-    detail:
-      'Completing the degree while focusing on AI/ML, software systems and practical engineering workflows.',
+    detail: 'Admitted to the two-year Master’s programme, starting A.Y. 2026/2027.',
   },
   {
-    period: 'Erasmus',
+    tag: '[GRAD]',
+    title: 'BSc in Computer Engineering',
+    place: 'University of Bologna · Final grade 94/110',
+    detail:
+      'Thesis: Autism Spectrum Disorder Detection via Eye Tracking Data using Machine Learning.',
+  },
+  {
+    tag: '[ERASMUS]',
     title: 'Research project in France',
-    place: 'Tours, France',
-    detail:
-      'Worked across international study and research contexts, strengthening technical autonomy and communication.',
+    place: 'Université de Tours, France',
+    detail: 'Worked across international study and research contexts, strengthening technical autonomy and communication.',
   },
   {
-    period: 'Innovation sprint',
-    title: 'GenAI challenge',
-    place: 'BOOM / CRIF / VEM context',
-    detail:
-      'Explored applied GenAI ideas for document-heavy industry workflows and public procurement analysis.',
+    tag: '[SPRINT]',
+    title: 'BOOM GenAI Challenge',
+    place: 'VEM Sistemi · GenAI Project Team',
+    detail: 'Explored applied GenAI ideas for document-heavy industry workflows and public procurement analysis.',
   },
 ]
 
 const skillGroups = [
-  ['AI / ML', ['Python', 'scikit-learn', 'data analysis', 'model evaluation', 'NLP basics']],
-  ['Software', ['TypeScript', 'React', 'Git', 'Linux', 'automation']],
-  ['Systems', ['Docker', 'Podman', 'self-hosting', 'reverse proxy', 'networking']],
-  ['Workflow', ['Markdown', 'GitHub Actions', 'technical writing', 'reproducibility']],
+  { key: 'AI_ML', label: 'AI / ML', skills: ['Python', 'scikit-learn', 'data analysis', 'model evaluation', 'NLP basics'] },
+  { key: 'SOFTWARE', label: 'Software', skills: ['TypeScript', 'React', 'Git', 'Linux', 'automation'] },
+  { key: 'SYSTEMS', label: 'Systems', skills: ['Docker', 'Podman', 'self-hosting', 'reverse proxy', 'networking'] },
+  { key: 'WORKFLOW', label: 'Workflow', skills: ['Markdown', 'GitHub Actions', 'technical writing', 'reproducibility'] },
+]
+
+const contactLinks = [
+  { key: 'github', href: 'https://github.com/frigori', value: 'github.com/frigori' },
+  { key: 'linkedin', href: 'https://www.linkedin.com/in/mattia-giovannini-07114a1a0/', value: 'linkedin.com/in/mattia-giovannini' },
+  { key: 'email', href: 'mailto:mattia.giovannini.business@gmail.com', value: 'mattia.giovannini.business@gmail.com' },
 ]
 
 function App() {
   return (
-    <main className="min-h-screen overflow-hidden bg-slate-950 text-slate-100 selection:bg-cyan-300 selection:text-slate-950">
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute left-1/2 top-0 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-cyan-500/20 blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-[28rem] w-[28rem] rounded-full bg-violet-500/20 blur-3xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.035)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(circle_at_center,black,transparent_78%)]" />
-      </div>
-
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-          <a href="#top" className="font-mono text-sm font-semibold tracking-[0.3em] text-cyan-200">
-            MG<span className="text-violet-300">.</span>
-          </a>
-          <div className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
-            {navItems.map((item) => (
-              <a key={item} href={`#${item}`} className="capitalize transition hover:text-cyan-200">
-                {item}
-              </a>
-            ))}
-          </div>
-          <a
-            href="#contact"
-            className="rounded-full border border-white/10 px-4 py-2 text-sm text-slate-200 transition hover:border-cyan-300/70 hover:text-cyan-100"
-          >
-            Contact
-          </a>
-        </nav>
-      </header>
-
-      <section id="top" className="mx-auto grid max-w-6xl gap-10 px-5 pb-20 pt-20 md:grid-cols-[1.25fr_.75fr] md:pb-28 md:pt-28">
-        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm text-cyan-100">
-            <Terminal className="h-4 w-4" /> Computer Engineering · AI/ML · Software systems
-          </p>
-          <h1 className="max-w-4xl text-5xl font-black tracking-tight text-white md:text-7xl">
-            Building practical AI and software systems with research-grade care.
-          </h1>
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
-            I’m Mattia Giovannini, a Computer Engineering student at the University of Bologna. I work on applied machine learning, GenAI prototypes and self-hosted systems that turn ideas into usable tools.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a className="group inline-flex items-center gap-2 rounded-full bg-cyan-300 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-200" href="#projects">
-              View projects <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </a>
-            <a className="inline-flex items-center gap-2 rounded-full border border-white/10 px-5 py-3 font-semibold text-slate-100 transition hover:border-violet-300/80" href="#contact">
-              CV coming soon
-            </a>
-          </div>
-        </motion.div>
-
-        <motion.aside
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.15, duration: 0.7 }}
-          className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-5 shadow-2xl shadow-cyan-950/40 backdrop-blur"
-        >
-          <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/70 p-6">
-            <div className="mb-8 flex items-center justify-between">
-              <div>
-                <p className="text-sm text-slate-400">Currently</p>
-                <h2 className="text-2xl font-bold text-white">Finishing BSc</h2>
-              </div>
-              <Moon className="h-6 w-6 text-violet-300" />
-            </div>
-            <div className="space-y-4">
-              <InfoLine icon={GraduationCap} label="University" value="Alma Mater Studiorum · UniBo" />
-              <InfoLine icon={MapPin} label="Base" value="Bologna, Italy" />
-              <InfoLine icon={Cpu} label="Focus" value="AI/ML, web tools, local infrastructure" />
-            </div>
-            <div className="mt-8 rounded-2xl bg-gradient-to-br from-cyan-300/15 to-violet-300/15 p-4 text-sm leading-6 text-slate-200">
-              Looking for opportunities where rigorous engineering, practical AI and product sense meet.
-            </div>
-          </div>
-        </motion.aside>
-      </section>
-
-      <Section id="about" eyebrow="About" title="A technical profile with a practical bias.">
-        <div className="grid gap-5 text-slate-300 md:grid-cols-3">
-          <p className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 leading-8 md:col-span-2">
-            I like projects where software, data and infrastructure touch the real world: models that can be evaluated, interfaces that can be used, and deployments that can be maintained. Recent work spans ASD detection from eye-tracking data, GenAI for document analysis and self-hosted services.
-          </p>
-          <div className="rounded-3xl border border-white/10 bg-cyan-300/10 p-6">
-            <p className="font-mono text-sm uppercase tracking-[0.25em] text-cyan-200">Principles</p>
-            <p className="mt-4 leading-8">Reproducible experiments, clear interfaces, small reliable systems, and documentation that survives after the demo.</p>
-          </div>
+    <main className="min-h-screen bg-[var(--bg)] font-mono text-[var(--ink)] selection:bg-[var(--amber)] selection:text-[var(--bg)]">
+      <div className="mx-auto max-w-6xl px-4 pb-16 pt-5 sm:px-6">
+        <div className="flex items-center gap-3 border border-[var(--line)] bg-[var(--panel)] px-4 py-2.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--amber)]/90" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--dim)]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[var(--dim)]" />
+          <span className="ml-2 text-xs text-[var(--sub)]">mattia@bologna: ~/portfolio</span>
         </div>
-      </Section>
 
-      <Section id="projects" eyebrow="Featured projects" title="Four projects that tell the story.">
-        <div className="grid gap-5 md:grid-cols-2">
-          {projects.map((project, index) => (
-            <motion.article
-              key={project.title}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ delay: index * 0.06 }}
-              className="group rounded-3xl border border-white/10 bg-white/[0.045] p-6 transition hover:-translate-y-1 hover:border-cyan-300/40 hover:bg-white/[0.07]"
+        <nav className="flex overflow-x-auto border border-t-0 border-[var(--line)] bg-[var(--bg)] text-sm">
+          {navTabs.map((tab, i) => (
+            <a
+              key={tab.id}
+              href={`#${tab.id}`}
+              className={`whitespace-nowrap border-r border-[var(--line)] px-4 py-2.5 text-[var(--sub)] transition hover:text-[var(--ink)] ${i === 0 ? 'bg-[var(--panel)] text-[var(--amber)]' : ''}`}
             >
-              <project.icon className="mb-6 h-8 w-8 text-cyan-200" />
-              <p className="font-mono text-xs uppercase tracking-[0.25em] text-violet-200">{project.eyebrow}</p>
-              <h3 className="mt-3 text-2xl font-bold text-white">{project.title}</h3>
-              <p className="mt-4 leading-7 text-slate-300">{project.description}</p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span key={tag} className="rounded-full border border-white/10 bg-slate-900 px-3 py-1 text-xs text-slate-300">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.article>
+              {tab.label}
+            </a>
           ))}
-        </div>
-      </Section>
+        </nav>
 
-      <Section id="timeline" eyebrow="Path" title="Study, research and applied experiments.">
-        <div className="space-y-4">
-          {timeline.map((item) => (
-            <div key={item.title} className="grid gap-4 rounded-3xl border border-white/10 bg-white/[0.04] p-6 md:grid-cols-[10rem_1fr]">
-              <p className="font-mono text-sm text-cyan-200">{item.period}</p>
-              <div>
-                <h3 className="text-xl font-bold text-white">{item.title}</h3>
-                <p className="mt-1 text-sm text-violet-200">{item.place}</p>
-                <p className="mt-3 leading-7 text-slate-300">{item.detail}</p>
+        <div className="border border-[var(--line)] px-4 py-10 sm:px-8 sm:py-14">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="grid gap-10 md:grid-cols-[1.3fr_1fr]"
+          >
+            <div>
+              <p className="text-sm text-[var(--dim)]">
+                <span className="text-[var(--amber)]">mattia@bologna</span>:~$ whoami
+              </p>
+              <p className="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
+                Mattia Giovannini
+                <span className="cursor-blink ml-1 inline-block h-[0.9em] w-[0.5em] translate-y-[0.12em] bg-[var(--amber)] align-middle" />
+              </p>
+
+              <div className="mt-8 font-sans">
+                <h1 className="text-xl leading-snug text-[var(--ink)] sm:text-2xl">
+                  <span className="text-[var(--amber)]">#</span> Building practical AI &amp; software systems, with research-grade care.
+                </h1>
+                <p className="mt-4 max-w-xl border-l-2 border-[var(--amber)] pl-4 text-base leading-7 text-[var(--sub)]">
+                  Computer Engineering graduate from the University of Bologna, admitted to the MSc in Artificial Intelligence at the same university. I work on applied machine learning, GenAI prototypes and self-hosted systems that turn ideas into usable tools.
+                </p>
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3 text-sm">
+                <a
+                  href="#projects"
+                  className="border border-[var(--amber)] bg-[var(--amber)] px-4 py-2.5 font-semibold text-[var(--bg)] transition hover:bg-transparent hover:text-[var(--amber)]"
+                >
+                  [view projects]
+                </a>
+                <a
+                  href="/cv.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="border border-[var(--amber)] px-4 py-2.5 font-semibold text-[var(--amber)] transition hover:bg-[var(--amber)] hover:text-[var(--bg)]"
+                >
+                  [download cv]
+                </a>
               </div>
             </div>
-          ))}
-        </div>
-      </Section>
 
-      <Section id="skills" eyebrow="Toolkit" title="A compact stack for AI, software and systems.">
-        <div className="grid gap-5 md:grid-cols-2">
-          {skillGroups.map(([group, skills]) => (
-            <div key={group as string} className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-              <h3 className="text-xl font-bold text-white">{group}</h3>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {(skills as string[]).map((skill) => (
-                  <span key={skill} className="rounded-full bg-white/10 px-3 py-1.5 text-sm text-slate-200">
-                    {skill}
-                  </span>
-                ))}
-              </div>
+            <aside className="border border-[var(--line)] bg-[var(--panel)] p-5 text-sm">
+              <p className="text-[var(--dim)]">--- neofetch: status ---</p>
+              <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-2.5">
+                <StatusRow label="university" value="Alma Mater Studiorum · UniBo" />
+                <StatusRow label="degree" value="BSc Comp. Eng. (94/110)" />
+                <StatusRow label="next" value="MSc AI, 2026–2028" />
+                <StatusRow label="location" value="Bologna, Italy" />
+                <StatusRow label="focus" value="AI/ML, web, infra" />
+              </dl>
+              <p className="mt-4 border-t border-dashed border-[var(--line)] pt-4 font-sans leading-6 text-[var(--sub)]">
+                Looking for opportunities where rigorous engineering, practical AI and product sense meet.
+              </p>
+            </aside>
+          </motion.div>
+
+          <Section id="about" command="cat about.md">
+            <div className="grid gap-6 font-sans md:grid-cols-[2fr_1fr]">
+              <p className="leading-7 text-[var(--sub)]">
+                I like projects where software, data and infrastructure touch the real world: models that can be evaluated, interfaces that can be used, and deployments that can be maintained. Recent work spans ASD detection from eye-tracking data, GenAI for document analysis and self-hosted services.
+              </p>
+              <p className="border-l-2 border-[var(--amber)] pl-4 leading-7 text-[var(--sub)]">
+                Reproducible experiments, clear interfaces, small reliable systems, and documentation that survives after the demo.
+              </p>
             </div>
-          ))}
-        </div>
-      </Section>
+          </Section>
 
-      <Section id="contact" eyebrow="Contact" title="Let’s build something useful.">
-        <div className="flex flex-wrap gap-3">
-          <ContactLink icon={Code2} label="GitHub" href="https://github.com/frigori" />
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-5 py-3 font-semibold text-slate-300">
-            <Network className="h-4 w-4" /> LinkedIn soon
-          </span>
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-5 py-3 font-semibold text-slate-300">
-            <Mail className="h-4 w-4" /> Email on request
-          </span>
-        </div>
-      </Section>
+          <Section id="projects" command="ls -la projects/">
+            <div className="grid gap-4 md:grid-cols-2">
+              {projects.map((project, index) => (
+                <motion.article
+                  key={project.path}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ delay: index * 0.06 }}
+                  className="border border-[var(--line)] bg-[var(--panel)] p-5"
+                >
+                  <p className="text-sm">
+                    <span className="text-[var(--amber)]">{project.path}</span>{' '}
+                    <span className="text-[var(--dim)]">{project.flag}</span>
+                  </p>
+                  <p className="mt-3 font-sans text-[0.92rem] leading-6 text-[var(--sub)]">{project.description}</p>
+                  <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+                    {project.tags.map((tag) => (
+                      <span key={tag} className="text-[var(--sub)]">
+                        <span className="text-[var(--dim)]">#</span>{tag}
+                      </span>
+                    ))}
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </Section>
 
-      <footer className="mx-auto max-w-6xl px-5 py-10 text-sm text-slate-500">
-        © {new Date().getFullYear()} Mattia Giovannini · Built with React, Vite, Tailwind CSS and Framer Motion.
-      </footer>
+          <Section id="timeline" command="cat timeline.log">
+            <div className="border border-[var(--line)]">
+              {timeline.map((item, i) => (
+                <div
+                  key={item.title}
+                  className={`grid gap-1 p-5 sm:grid-cols-[8rem_1fr] ${i > 0 ? 'border-t border-[var(--line)]' : ''}`}
+                >
+                  <p className="text-sm text-[var(--amber)]">{item.tag}</p>
+                  <div className="font-sans">
+                    <h3 className="text-base text-[var(--ink)]">{item.title}</h3>
+                    <p className="mt-0.5 text-xs text-[var(--dim)]">{item.place}</p>
+                    <p className="mt-2 leading-6 text-[var(--sub)]">{item.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          <Section id="skills" command="which skills">
+            <div className="border border-[var(--line)] p-5 sm:p-6">
+              {skillGroups.map((group, i) => (
+                <div key={group.key} className={i > 0 ? 'mt-5' : ''}>
+                  <p className="text-sm">
+                    <span className="text-[var(--amber)]">{group.key}</span>
+                    <span className="text-[var(--dim)]">=({group.label.toLowerCase()})</span>
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <span key={skill} className="border border-[var(--line)] bg-[var(--panel)] px-2.5 py-1 text-xs text-[var(--sub)]">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          <Section id="contact" command="mail -s contact">
+            <div className="border border-[var(--line)]">
+              {contactLinks.map((link, i) => (
+                <a
+                  key={link.key}
+                  href={link.href}
+                  className={`flex flex-wrap items-center gap-2 px-5 py-4 text-sm transition hover:bg-[var(--panel)] ${i > 0 ? 'border-t border-[var(--line)]' : ''}`}
+                >
+                  <span className="w-24 shrink-0 text-[var(--amber)]">{link.key}</span>
+                  <span className="text-[var(--dim)]">→</span>
+                  <span className="text-[var(--ink)]">{link.value}</span>
+                </a>
+              ))}
+            </div>
+          </Section>
+
+          <div className="mt-12 flex flex-wrap items-center justify-between gap-2 border border-[var(--line)] border-t-2 border-t-[var(--amber)] bg-[var(--panel)] px-4 py-2 text-xs text-[var(--dim)]">
+            <span>
+              <span className="bg-[var(--amber)] px-2 py-0.5 font-bold text-[var(--bg)]">NORMAL</span>{' '}
+              <span className="ml-2">mattia-portfolio</span>
+            </span>
+            <span className="hidden sm:inline">main*</span>
+            <span className="hidden sm:inline">utf-8</span>
+            <span>&copy; {new Date().getFullYear()}</span>
+          </div>
+        </div>
+      </div>
     </main>
   )
 }
 
-function Section({ id, eyebrow, title, children }: { id: string; eyebrow: string; title: string; children: React.ReactNode }) {
+function Section({ id, command, children }: { id: string; command: string; children: React.ReactNode }) {
   return (
-    <section id={id} className="mx-auto max-w-6xl px-5 py-16">
-      <p className="font-mono text-sm uppercase tracking-[0.3em] text-cyan-200">{eyebrow}</p>
-      <h2 className="mt-3 max-w-3xl text-3xl font-black tracking-tight text-white md:text-5xl">{title}</h2>
-      <div className="mt-8">{children}</div>
+    <section id={id} className="mt-12">
+      <p className="mb-5 text-sm text-[var(--dim)]">
+        <span className="text-[var(--amber)]">$</span> {command}
+      </p>
+      {children}
     </section>
   )
 }
 
-function InfoLine({ icon: Icon, label, value }: { icon: typeof GraduationCap; label: string; value: string }) {
+function StatusRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-      <Icon className="mt-1 h-5 w-5 shrink-0 text-cyan-200" />
-      <div>
-        <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{label}</p>
-        <p className="mt-1 text-sm text-slate-200">{value}</p>
-      </div>
-    </div>
-  )
-}
-
-function ContactLink({ icon: Icon, label, href }: { icon: typeof Code2; label: string; href: string }) {
-  return (
-    <a href={href} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-5 py-3 font-semibold text-slate-100 transition hover:border-cyan-300/60 hover:text-cyan-100">
-      <Icon className="h-4 w-4" /> {label}
-    </a>
+    <>
+      <dt className="text-[var(--dim)]">{label}</dt>
+      <dd className="text-[var(--ink)]">{value}</dd>
+    </>
   )
 }
 
